@@ -33,3 +33,9 @@
 .summer {
     background-color: orange;
 }
+
+.border-red {
+    border: 10px;
+    border-color: grey;
+    border-style: solid;
+}
