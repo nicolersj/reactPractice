@@ -1,27 +1,31 @@
 import React from 'react';
-import axios from 'axios';
+import unsplash from '../api/unsplash';
 import SearchBar from './SearchBar';
+import ImageList from './ImageList';
 
 
 class App extends React.Component {
 
-    onSearchSubmit(term) {
-        axios.get('https://api.unsplash.com/search/photos', {
+    state = { images: [] };
+
+
+    onSearchSubmit = async (term) => {
+        const response = await unsplash.get('/search/photos', {
             params: { query: term },
-            headers: {
-                Authorization: 'Client-ID 75f732e6a65e6b4d4d6af0c6f7472eff33055ed6586d36902ba943674ee17eeb'
-            }
-        }).then((response) => {
-            console.log(response.data.results);
-            //then promise built into axios that provides accessed API data.
-            //data.results accesses specifcally the results bit of informaton from API -- only technically need response
+            
         });
+        console.log(response.data.results);
+        // logs out results data using async built in property
+        // and applying a variable to the await axios response, that once done
+        // can be accessed and then push values to state for use.
+            this.setState({ images: response.data.results});
     }
 
     render() {
         return(
         <div className="ui container" style={{marginTop: '10px'}}>
             <SearchBar onSubmit={this.onSearchSubmit} />
+            <ImageList images={this.state.images}/>
         </div>
         );
     }
